@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public GameObject arrow;
-    public GameObject player;
 
     void Update()
     {
@@ -18,7 +17,7 @@ public class PlayerController : MonoBehaviour
 
     void PlayerChangeDirection()
     {
-        player.transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
+        transform.Rotate(Vector3.up, 180f);
 
         if (arrow != null)
         {
