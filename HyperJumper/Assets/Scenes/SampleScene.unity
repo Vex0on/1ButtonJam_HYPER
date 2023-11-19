@@ -408,9 +408,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5013685377b12634584057d95eb75455, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arrow: {fileID: 383013641}
-  player: {fileID: 870210128}
-  isFacingRight: 1
+  arrow: {fileID: 383013640}
+  player: {fileID: 870210125}
 --- !u!1 &884845277
 GameObject:
   m_ObjectHideFlags: 0
