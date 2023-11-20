@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     public float maxJumpHigh = 2f;
     public float maxJumpForce = 5f;
     public float maxForwardForce = 3.5f;
-    public float jumpForceMultiplier = 0.8f;
+    public float jumpForceMultiplier = 0.5f;
     public float shortPressTime = 0.2f;
 
     private bool isSpaceHold = false;
@@ -31,23 +31,22 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(spaceKey) && isSpaceHold)
         {
             spaceHoldTime += Time.deltaTime;
-
-            if (spaceHoldTime >= shortPressTime && !hasPerformedRotation)
-            {
-                Jump();
-                isSpaceHold = false;
-                spaceHoldTime = 0f;
-            }
         }
 
         if (Input.GetKeyUp(spaceKey) && isSpaceHold)
         {
+            if (spaceHoldTime >= shortPressTime && !hasPerformedRotation)
+            {
+                Jump();
+            }
+
             DirectionRotation();
             hasPerformedRotation = true;
             isSpaceHold = false;
             spaceHoldTime = 0f;
         }
     }
+
 
     void DirectionRotation()
     {
@@ -64,16 +63,21 @@ public class PlayerController : MonoBehaviour
         Rigidbody2D rb = player.GetComponent<Rigidbody2D>();
 
         Vector2 direction = new Vector2(player.transform.right.x, player.transform.right.y);
-        Vector2 jumpVector = new Vector2(direction.x, direction.y + 0.5f);
+        Vector2 jumpVector = new Vector2(direction.x - 0.3f, direction.y + 1f);
 
-        rb.velocity = jumpVector * CalculateJumpForce() + direction * maxForwardForce;
+        Vector2 jumpForce = jumpVector * CalculateJumpForce();
+        rb.AddForce(jumpForce, ForceMode2D.Impulse);
 
         spaceHoldTime = 0f;
     }
 
+
     float CalculateJumpForce()
     {
         float jumpForceHeight = Mathf.Clamp(spaceHoldTime, 0f, maxJumpHigh);
-        return (maxJumpForce + jumpForceHeight * jumpForceMultiplier);
+        float jumpForce = (maxJumpForce + jumpForceHeight * jumpForceMultiplier);
+
+        return jumpForce;
     }
+
 }
