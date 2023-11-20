@@ -78,5 +78,6 @@ public class PlayerController : MonoBehaviour
 
         return jumpForce;
     }
+    
 
 }
