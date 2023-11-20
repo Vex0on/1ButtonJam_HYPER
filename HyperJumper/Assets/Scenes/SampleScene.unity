@@ -291,7 +291,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!212 &870210127
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -410,6 +410,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   arrow: {fileID: 383013640}
   player: {fileID: 870210125}
+  maxJumpHigh: 6.7
+  maxJumpForce: 5
+  maxForwardForce: 3.5
+  jumpForceMultiplier: 0.8
+  shortPressTime: 0.2
 --- !u!1 &884845277
 GameObject:
   m_ObjectHideFlags: 0
