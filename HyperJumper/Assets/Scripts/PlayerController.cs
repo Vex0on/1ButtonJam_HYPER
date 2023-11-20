@@ -61,7 +61,6 @@ public class PlayerController : MonoBehaviour
     void Jump()
     {
         Rigidbody2D rb = player.GetComponent<Rigidbody2D>();
-
         Vector2 direction = new Vector2(player.transform.right.x, player.transform.right.y);
         Vector2 jumpVector = new Vector2(direction.x - 0.3f, direction.y + 1f);
 
