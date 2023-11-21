@@ -31,8 +31,8 @@ public class PlayerController : MonoBehaviour
                 break;
             case InputActionPhase.Canceled:
                 var time = context.time - _spaceHoldTime;
-                Debug.Log(time);
-                if (_spaceHoldTime < _shortPressTime)
+
+                if (time < _shortPressTime)
                     DirectionRotation();
                 else
                     Jump();
