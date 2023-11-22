@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     [Header("GameObjects")]
     [SerializeField] private GameObject arrow;
     [SerializeField] private GameObject player;
+    [SerializeField] private MainMenu menu;
 
     [Header("Stats")]
     [SerializeField] private float _maxJumpHigh = 2f;
@@ -25,6 +26,12 @@ public class PlayerController : MonoBehaviour
 
     public void Jump(InputAction.CallbackContext context)
     {
+
+        if (!menu.isGameStarted)
+        {
+            return;
+        }
+
         switch (context.phase)
         {
             case InputActionPhase.Started:
