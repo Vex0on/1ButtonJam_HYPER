@@ -675,9 +675,10 @@ MonoBehaviour:
   arrow: {fileID: 383013640}
   player: {fileID: 870210125}
   _maxJumpHigh: 2
-  _maxJumpForce: 5
-  _jumpForceMultiplier: 0.5
+  _maxJumpForce: 2.5
+  _jumpForceMultiplier: 3
   _shortPressTime: 0.2
+  _startSpaceHoldTime: 0
   _spaceHoldTime: 0
 --- !u!114 &870210131
 MonoBehaviour:

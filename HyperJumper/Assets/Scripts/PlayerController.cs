@@ -15,7 +15,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _jumpForceMultiplier = 0.5f;
     [SerializeField] private float _shortPressTime = 0.2f;
 
-    [SerializeField] private double _spaceHoldTime = 0f;
+    [SerializeField] private double _startSpaceHoldTime;
+    [SerializeField] private double _spaceHoldTime;
 
     void Start()
     {
@@ -27,12 +28,12 @@ public class PlayerController : MonoBehaviour
         switch (context.phase)
         {
             case InputActionPhase.Started:
-                _spaceHoldTime = context.time;
+                _startSpaceHoldTime = context.time;
                 break;
             case InputActionPhase.Canceled:
-                var time = context.time - _spaceHoldTime;
+                _spaceHoldTime = context.time - _startSpaceHoldTime;
 
-                if (time < _shortPressTime)
+                if (_spaceHoldTime < _shortPressTime)
                     DirectionRotation();
                 else
                     Jump();
@@ -59,17 +60,15 @@ public class PlayerController : MonoBehaviour
         float horizontalMultiplier = 0.5f;
 
         Vector2 jumpDirection = player.transform.right;
-        Vector2 jumpForceVector = new Vector2(jumpDirection.x * jumpForce * horizontalMultiplier, jumpForce * verticalMultiplier);
+        Vector2 jumpForceVector = new(jumpDirection.x * jumpForce * horizontalMultiplier, jumpForce * verticalMultiplier);
 
         rb.AddForce(jumpForceVector, ForceMode2D.Impulse);
-
-        _spaceHoldTime = 0f;
     }
 
     private float CalculateJumpForce()
     {
         float jumpForceHeight = Mathf.Clamp((float)_spaceHoldTime, 0f, _maxJumpHigh);
-        float jumpForce = (_maxJumpForce + jumpForceHeight * _jumpForceMultiplier);
+        float jumpForce = (_maxJumpForce + (jumpForceHeight * _jumpForceMultiplier));
 
         return jumpForce;
     }
