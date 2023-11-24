@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MovingBlockFunctionality : BaseBlock
+public class MovingBlock : Block
 {
     [SerializeField] private Transform waypoint_start;
     [SerializeField] private Transform waypoint_end;
@@ -15,15 +15,17 @@ public class MovingBlockFunctionality : BaseBlock
     private float lastFramePosition;
     private bool movingTowardsStart;
     private bool movingTowardsEnd;
+
+
     private void Start()
     {
         platform.position = waypoint_start.position;
         movingTowardsEnd = true;
         movingTowardsStart = false;
     }
+
     private void Update()
     {
-        
         if (movingTowardsEnd)
         {
             elapsedTime += Time.deltaTime;

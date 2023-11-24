@@ -105,7 +105,7 @@ public class PlayerController : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.TryGetComponent(out StickyBlockFunctionality s))
+        if(collision.TryGetComponent(out StickyBlock s))
         {
             _isTouchingStickyBlock = true;
             _savedDrag = rb.drag;
@@ -113,11 +113,11 @@ public class PlayerController : MonoBehaviour
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.TryGetComponent(out StickyBlockFunctionality s))
+        if (collision.TryGetComponent(out StickyBlock s))
         {
             _isTouchingStickyBlock = true;
         }
-        if (collision.TryGetComponent(out FireBlockFunctionality f))
+        if (collision.TryGetComponent(out FireBlock f))
         {
             _isTouchingFireBlock = true;
         }
