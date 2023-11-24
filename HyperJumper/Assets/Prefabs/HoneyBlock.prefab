@@ -97,7 +97,7 @@ BoxCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 42e6e843c4064854c9477ddf67b95eef, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -131,7 +131,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.16, y: 0.16}
+  m_Size: {x: 0.13, y: 0.13}
   m_EdgeRadius: 0
 --- !u!114 &8249309263918068509
 MonoBehaviour:
@@ -157,7 +157,7 @@ BoxCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 42e6e843c4064854c9477ddf67b95eef, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

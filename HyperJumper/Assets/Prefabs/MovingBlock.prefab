@@ -51,7 +51,7 @@ MonoBehaviour:
   _playerController: {fileID: 0}
   waypoint_start: {fileID: 4292994729259210359}
   waypoint_end: {fileID: 6053524214095276522}
-  platform: {fileID: 3377085631404214252}
+  platform: {fileID: 8538711870143866022}
   movementTime: 3
   waypointThreshold: 0.01
 --- !u!1 &4118716960509506947
@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 3377085631404214252}
   - component: {fileID: 3521456921239097306}
   - component: {fileID: 5970210524000308359}
+  - component: {fileID: 8538711870143866022}
   m_Layer: 0
   m_Name: Platform
   m_TagString: Untagged
@@ -216,6 +217,33 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.16, y: 0.16}
   m_EdgeRadius: 0
+--- !u!50 &8538711870143866022
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4460494356015078187}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 1
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 6200000, guid: ac4e42fe06d73e249ab56fb28860f485, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 0
 --- !u!1 &5232816312784144032
 GameObject:
   m_ObjectHideFlags: 0
