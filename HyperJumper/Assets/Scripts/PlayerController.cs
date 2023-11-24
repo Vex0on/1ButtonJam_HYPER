@@ -26,11 +26,7 @@ public class PlayerController : MonoBehaviour
 
     public void Jump(InputAction.CallbackContext context)
     {
-
-        if (!menu.isGameStarted)
-        {
-            return;
-        }
+        if (!menu.isGameStarted) return;
 
         switch (context.phase)
         {
