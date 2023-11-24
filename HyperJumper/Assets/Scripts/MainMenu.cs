@@ -3,21 +3,26 @@ using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using TMPro;
-using NUnit.Framework;
 using System.Collections.Generic;
+using UnityEditor;
 
 public class MainMenu : MonoBehaviour
 {
-    [SerializeField] private GameObject buttons;
+    [SerializeField] private List<Button> buttonsMain;
+    [SerializeField] private List<Button> buttonsOptions;
+    [SerializeField] private GameObject buttonsPanel;
     [SerializeField] private GameObject optionsPanel;
     [SerializeField] private Toggle fullscreenToggle;
     [SerializeField] private TMP_Dropdown resolutionPicker;
     [SerializeField] private TMP_InputField playerNickname;
 
-    private Resolution[] _resolutions;
-    private List<Resolution> _filteredResolutions;
-    private int _currentResolutionIdx = 0;
-    private float _currentRefreshRate;
+    [Header("Debug")]
+    [SerializeField] private int chosenMainIndex;
+    [SerializeField] private int chosenOptionIndex;
+    [SerializeField] private float _shortPressTime = 0.2f;
+    [SerializeField] private double _startSpaceHoldTime;
+    [SerializeField] private double _spaceHoldTime;
+
     public bool isGameStarted = false;
 
     [System.Obsolete]
@@ -25,46 +30,53 @@ public class MainMenu : MonoBehaviour
     {
         Time.timeScale = 0f;
 
-        _resolutions = Screen.resolutions;
-        _filteredResolutions = new List<Resolution>();
+        chosenMainIndex = 1;
+        buttonsMain[chosenMainIndex].Select();
+    }
 
-        resolutionPicker.ClearOptions();
-        _currentRefreshRate = Screen.currentResolution.refreshRate;
+    public void OnUIControl(InputAction.CallbackContext context)
+    {
+        if (isGameStarted) return;
 
-        Debug.Log("RefreshRate: " + _currentRefreshRate);
-
-        for (int i = 0; i < _resolutions.Length; i++)
+        switch (context.phase)
         {
-            Debug.Log("Resolution: " + _resolutions[i]);
-            if (_resolutions[i].refreshRate == _currentRefreshRate)
-            {
-                _filteredResolutions.Add(_resolutions[i]);
-            }
+            case InputActionPhase.Started:
+                _startSpaceHoldTime = context.time;
+                break;
+            case InputActionPhase.Canceled:
+                _spaceHoldTime = context.time - _startSpaceHoldTime;
+
+                if (_spaceHoldTime < _shortPressTime)
+                {
+                    if (optionsPanel.activeSelf)
+                    {
+                        chosenOptionIndex = ++chosenOptionIndex % buttonsOptions.Count;
+                        buttonsOptions[chosenOptionIndex].Select();
+                    }
+                    else
+                    {
+                        chosenMainIndex = ++chosenMainIndex % buttonsMain.Count;
+                        buttonsMain[chosenMainIndex].Select();
+                    }
+                }
+                else
+                {
+                    if (optionsPanel.activeSelf)
+                    {
+                        buttonsOptions[chosenOptionIndex].onClick.Invoke();
+                    }
+                    else
+                    {
+                        buttonsMain[chosenMainIndex].onClick.Invoke();
+                    }
+                }
+                break;
         }
-
-        List<string> options = new List<string>();
-        for (int i = 0; i < _filteredResolutions.Count; i++)
-        {
-            string resolutionOptions = _filteredResolutions[i].width + "x" + _filteredResolutions[i].height + " " + _filteredResolutions[i].refreshRate + "Hz";
-            options.Add(resolutionOptions);
-            if (_filteredResolutions[i].width == Screen.width && _filteredResolutions[i].height == Screen.height)
-            {
-                _currentResolutionIdx = i;
-            }
-        }
-
-        resolutionPicker.AddOptions(options);
-        resolutionPicker.value = _currentResolutionIdx;
-        resolutionPicker.RefreshShownValue();
-
     }
 
     public void PlayGame()
     {
-        if (buttons != null)
-        {
-            buttons.SetActive(false);
-        }
+        buttonsPanel.SetActive(false);
 
         Time.timeScale = 1f;
         isGameStarted = true;
@@ -73,6 +85,7 @@ public class MainMenu : MonoBehaviour
     public void Options()
     {
         Debug.Log("Options");
+        buttonsPanel.SetActive(false);
         optionsPanel.SetActive(true);
     }
 
@@ -88,19 +101,9 @@ public class MainMenu : MonoBehaviour
         Debug.Log("Player Name: " + playerName);
     }
 
-    public void SetResolution(int resolutionIdx)
-    {
-        Resolution resolution = _filteredResolutions[resolutionIdx];
-        Screen.SetResolution(resolution.width, resolution.height, true);
-    }
-
-    public void ToggleFullscreen()
-    {
-        Screen.fullScreen = fullscreenToggle.isOn;
-    }
-
     public void CloseOptions()
     {
+        buttonsPanel.SetActive(true);
         optionsPanel.SetActive(false);
     }
 }
