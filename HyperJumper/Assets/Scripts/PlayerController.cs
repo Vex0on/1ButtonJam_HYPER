@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     [Header("GameObjects")]
     [SerializeField] private GameObject arrow;
     [SerializeField] private GameObject player;
+    [SerializeField] private MainMenu menu;
 
     [Header("Stats")]
     [SerializeField] private float _maxJumpHigh = 2f;
@@ -18,7 +19,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _jumpForceMultiplier = 0.5f;
     [SerializeField] private float _shortPressTime = 0.2f;
 
-    [SerializeField] private double _spaceHoldTime = 0f;
+    [SerializeField] private double _startSpaceHoldTime;
+    [SerializeField] private double _spaceHoldTime;
 
     [Header("Block-related variables")]
     [SerializeField] private bool _isTouchingStickyBlock;
@@ -46,27 +48,29 @@ public class PlayerController : MonoBehaviour
 
     public void Jump(InputAction.CallbackContext context)
     {
+
+        if (!menu.isGameStarted)
+        {
+            return;
+        }
+
         switch (context.phase)
         {
             case InputActionPhase.Started:
-                _spaceHoldTime = context.time;
+                _startSpaceHoldTime = context.time;
                 break;
             case InputActionPhase.Canceled:
-                var time = context.time - _spaceHoldTime;
+                _spaceHoldTime = context.time - _startSpaceHoldTime;
 
-                if (time < _shortPressTime)
+                if (_spaceHoldTime < _shortPressTime)
                     DirectionRotation();
                 else
-                {
-                    rb.drag = _savedDrag;
                     Jump();
-                    _isTouchingStickyBlock = false;
-                    _isTouchingFireBlock = false;
-                    _timeElapsedStandingOnBlock = 0;
-                }
+
                 break;
         }
     }
+
     private void DirectionRotation()
     {
         player.transform.Rotate(Vector3.up, 180f);
@@ -85,7 +89,7 @@ public class PlayerController : MonoBehaviour
         float horizontalMultiplier = 0.5f;
 
         Vector2 jumpDirection = player.transform.right;
-        Vector2 jumpForceVector = new Vector2(jumpDirection.x * jumpForce * horizontalMultiplier * _currentBlockVerticalIncrease, jumpForce * verticalMultiplier * _currentBlockJumpIncrease);
+        Vector2 jumpForceVector = new(jumpDirection.x * jumpForce * horizontalMultiplier, jumpForce * verticalMultiplier);
 
         rb.AddForce(jumpForceVector, ForceMode2D.Impulse);
 
@@ -156,23 +160,11 @@ public class PlayerController : MonoBehaviour
         if (_currentBlockVerticalIncrease < _fireBlockVerticalIncrease)
             _currentBlockVerticalIncrease += 0.005f;
     }
-    private void DecreaseFireBuff()
-    {
-        playerSprite.color = Color.Lerp(Color.white, Color.yellow, _timeElapsedStandingOnBlock/_desiredTimeToChangeSpriteColor);
 
-        if (_currentBlockJumpIncrease > 1f)
-            _currentBlockJumpIncrease -= 0.005f;
-
-        if (_currentBlockVerticalIncrease > 1f)
-            _currentBlockVerticalIncrease -= 0.005f;
-    }
-    private void IncreaseStickyDebuff()
+    private float CalculateJumpForce()
     {
-        if(rb.drag < _stickyBlockSlowdown)
-        rb.drag += 3;
-        
-        if (_currentBlockJumpIncrease >= _stickyBlockJumpIncrease)
-        _currentBlockJumpIncrease -= 0.005f;
+        float jumpForceHeight = Mathf.Clamp((float)_spaceHoldTime, 0f, _maxJumpHigh);
+        float jumpForce = (_maxJumpForce + (jumpForceHeight * _jumpForceMultiplier));
 
         if (_currentBlockVerticalIncrease >= _stickyBlockVerticalIncrease)
         _currentBlockVerticalIncrease -= 0.005f;
