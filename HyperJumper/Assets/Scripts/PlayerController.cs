@@ -24,8 +24,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public float _currentBlockVerticalIncrease = 1f;
     [SerializeField] public float _currentBlockJumpIncrease = 1f;
     [Header("VFX")]
-    [SerializeField] private ParticleSystem _fireParticles;
-    [SerializeField] private ParticleSystem _honeyParticles;
+    [SerializeField] public ParticleSystem fireParticles;
+    [SerializeField] public ParticleSystem honeyParticles;
 
     [SerializeField] private Block _block;
     void Start()
@@ -49,17 +49,8 @@ public class PlayerController : MonoBehaviour
                     DirectionRotation();
                 else
                 {
-                    //_isTouchingStickyBlock = false;
-                    //_isTouchingFireBlock = false;
-                    if (_block != null)
-                    {
-                        _block.OnExit();
-                        Jump(_currentBlockVerticalIncrease, _currentBlockJumpIncrease);
-                        _block = null;
-                    }
-                    else
-                        Jump(_currentBlockVerticalIncrease, _currentBlockJumpIncrease);
-                    //rb.drag = _savedDrag;
+                    rb.drag = 0f;
+                    Jump(_currentBlockVerticalIncrease, _currentBlockJumpIncrease);
                 }
 
                 break;
@@ -107,39 +98,15 @@ public class PlayerController : MonoBehaviour
             _block.OnEnter(this);
         }
     }
-    private void OnCollisionStay2D(Collision2D collision)
+    private void Update()
     {
         if (_block == null) return;
         _block.OnStay();
     }
-    private void Update()
+    private void OnCollisionExit2D(Collision2D collision)
     {
-        /*
-        if(_isTouchingFireBlock && !_isTouchingStickyBlock)
-        {
-            _timeElapsedStandingOnBlock += Time.deltaTime;
-            IncreaseFireBuff();
-            _fireParticles.Emit(1);
-        }
-        else
-        {
-            DecreaseFireBuff();
-        }
-        if (_isTouchingStickyBlock && !_isTouchingFireBlock)
-        {
-            _timeElapsedStandingOnBlock += Time.deltaTime;
-            IncreaseStickyDebuff();
-            _honeyParticles.Emit(1);
-        }
-        else
-        {
-            DecreaseStickyDebuff();
-        }
-        if(!_isTouchingStickyBlock && !_isTouchingFireBlock)
-        {
-            _timeElapsedStandingOnBlock -= Time.deltaTime;
-        }*/
+        if (_block == null) return;
+        _block.OnExit();
+        _block = null;
     }
-    
-   
 }

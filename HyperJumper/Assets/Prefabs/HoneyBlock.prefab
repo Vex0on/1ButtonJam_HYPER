@@ -103,8 +103,8 @@ MonoBehaviour:
   _timeElapsedStandingOnBlock: 0
   _buffApplyTime: 2
   _stickyBlockSlowdown: 100
-  _stickyBlockJumpIncrease: 0.5
-  _stickyBlockVerticalIncrease: 0.5
+  _stickyBlockJumpIncrease: 0.75
+  _stickyBlockVerticalIncrease: 0.75
   _savedDrag: 0
   _timeToDissipateDebuff: 5
 --- !u!61 &6989632337991727181

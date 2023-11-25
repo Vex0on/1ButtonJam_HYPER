@@ -13,12 +13,13 @@ public class StickyBlock : Block
 
     public override void OnEnter(PlayerController player)
     {
+        StopAllCoroutines();
         _playerController = player;
         _savedDrag = _playerRB.drag;
     }
     public override void OnStay()
     {
-        if(_timeElapsedStandingOnBlock < _timeToDissipateDebuff)
+        if(_timeElapsedStandingOnBlock < _buffApplyTime)
             _timeElapsedStandingOnBlock += Time.deltaTime;
         IncreaseStickyDebuff(_playerController);
     }
@@ -26,17 +27,21 @@ public class StickyBlock : Block
     {
         _playerRB.drag = _savedDrag;
         StartCoroutine(DecreaseStickyDebuffOT(_timeToDissipateDebuff));
+        _timeElapsedStandingOnBlock = 0f;
     }
 
     private void IncreaseStickyDebuff(PlayerController player)
     {
         _playerSpriteRenderer.color = Color.Lerp(Color.white, Color.yellow, _timeElapsedStandingOnBlock / _buffApplyTime);
 
-        _playerRB.drag = Mathf.Lerp(_savedDrag, _stickyBlockSlowdown, _timeElapsedStandingOnBlock / _buffApplyTime);
+        if(_playerRB.drag < _stickyBlockSlowdown)
+            _playerRB.drag += 3;
 
-        _playerController._currentBlockJumpIncrease = Mathf.Lerp(1f, _stickyBlockJumpIncrease, _timeElapsedStandingOnBlock / _buffApplyTime);
+        _playerController._currentBlockJumpIncrease = Mathf.Lerp(_playerController._currentBlockJumpIncrease, _stickyBlockJumpIncrease, _timeElapsedStandingOnBlock / _buffApplyTime);
 
-        _playerController._currentBlockVerticalIncrease = Mathf.Lerp(1f, _stickyBlockVerticalIncrease, _timeElapsedStandingOnBlock / _buffApplyTime);
+        _playerController._currentBlockVerticalIncrease = Mathf.Lerp(_playerController._currentBlockVerticalIncrease, _stickyBlockVerticalIncrease, _timeElapsedStandingOnBlock / _buffApplyTime);
+
+        _playerController.honeyParticles.Emit(Mathf.FloorToInt(_timeElapsedStandingOnBlock));
 
     }
     private IEnumerator DecreaseStickyDebuffOT(float timeToDissipateDebuff)
@@ -53,6 +58,8 @@ public class StickyBlock : Block
             _playerController._currentBlockJumpIncrease = Mathf.Lerp(1f, currentJumpIncrease, time / timeToDissipateDebuff);
 
             _playerController._currentBlockVerticalIncrease = Mathf.Lerp(1f, currentVerticalIncrease, time / timeToDissipateDebuff);
+
+            _playerController.honeyParticles.Emit(Mathf.FloorToInt(time));
 
             yield return null;
         }
