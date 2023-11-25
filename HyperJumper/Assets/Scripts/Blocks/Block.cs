@@ -2,10 +2,14 @@ using UnityEngine;
 
 public abstract class Block : MonoBehaviour
 {
-    [SerializeField] protected Rigidbody2D _playerRB;
+    protected PlayerController _playerController;
+    [SerializeField] public Rigidbody2D _playerRB;
+    [SerializeField] public SpriteRenderer _playerSpriteRenderer;
+    [Header("Tracker vars")]
+    [SerializeField] protected float _timeElapsedStandingOnBlock;
+    [SerializeField] protected float _buffApplyTime = 5f;
 
-
-    public virtual void OnTouch(PlayerController player) { }
-    public virtual void OnUpdate(PlayerController player) { }
-    public virtual void OnDetach(PlayerController player) { }
+    public virtual void OnEnter(PlayerController player) { }
+    public virtual void OnStay() { }
+    public virtual void OnExit() { }
 }
