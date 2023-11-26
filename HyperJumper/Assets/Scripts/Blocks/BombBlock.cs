@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class BombBlock : Block
 {
-    [SerializeField] private float _timeToDissipateDebuff;
     [SerializeField] private float _explosionJumpIncrease = 0.5f;
     [SerializeField] private float _explosionVerticalIncrease = 0.5f;
     [SerializeField] private float _explosionForce = 0.5f;
@@ -17,7 +16,7 @@ public class BombBlock : Block
     }
     public override void OnExit()
     {
-        StartCoroutine(DecreaseExplosionDebuff(_timeToDissipateDebuff));
+        _playerController.ResetVars(Color.red);
         _timeElapsedStandingOnBlock = 0f;
     }
 
@@ -33,30 +32,10 @@ public class BombBlock : Block
         StartCoroutine(CreateExplosionVFX());
 
     }
-    private IEnumerator DecreaseExplosionDebuff(float timeToDissipateDebuff)
-    {
-        float time = timeToDissipateDebuff;
-        float currentVerticalIncrease = _playerController._currentBlockVerticalIncrease;
-        float currentJumpIncrease = _playerController._currentBlockJumpIncrease;
-
-        while (time >= 0)
-        {
-            time -= Time.deltaTime;
-            _playerSpriteRenderer.color = Color.Lerp(Color.white, Color.red, time / timeToDissipateDebuff);
-
-            _playerController._currentBlockJumpIncrease = Mathf.Lerp(1f, currentJumpIncrease, time / timeToDissipateDebuff);
-
-            _playerController._currentBlockVerticalIncrease = Mathf.Lerp(1f, currentVerticalIncrease, time / timeToDissipateDebuff);
-
-            _playerController.honeyParticles.Emit(Mathf.FloorToInt(time));
-
-            yield return null;
-        }
-    }
     private IEnumerator CreateExplosionVFX()
     {
         gameObject.GetComponent<SpriteRenderer>().enabled = false;
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(timeToDissipateBuff);
         Destroy(gameObject);
     }
 

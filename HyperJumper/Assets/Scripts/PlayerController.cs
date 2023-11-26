@@ -98,6 +98,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.TryGetComponent(out Block block))
         {
+            StopAllCoroutines();
             block._playerRB = rb;
             block._playerSpriteRenderer = GetComponent<SpriteRenderer>();
             _block = block;
@@ -129,5 +130,28 @@ public class PlayerController : MonoBehaviour
         if(_ladderBlock == null) return;
         _ladderBlock.OnExit();
         _ladderBlock = null;
+    }
+    public void ResetVars(Color spriteDebuffColor)
+    {
+        StartCoroutine(ResetVariablesGradually(_block.timeToDissipateBuff, spriteDebuffColor));
+    }
+
+    private IEnumerator ResetVariablesGradually(float timeToDissipateDebuff, Color color)
+    {
+        float time = timeToDissipateDebuff;
+        float currentVerticalIncrease = _currentBlockVerticalIncrease;
+        float currentJumpIncrease = _currentBlockJumpIncrease;
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+
+        while (time >= 0)
+        {
+            time -= Time.deltaTime;
+            sr.color = Color.Lerp(Color.white, color, time / timeToDissipateDebuff);
+            _currentBlockJumpIncrease = Mathf.Lerp(1f, currentJumpIncrease, time / timeToDissipateDebuff);
+            _currentBlockVerticalIncrease = Mathf.Lerp(1f, currentVerticalIncrease, time / timeToDissipateDebuff);
+            honeyParticles.Emit(Mathf.FloorToInt(time));
+
+            yield return null;
+        }
     }
 }
