@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8021833963362380368}
   - component: {fileID: -9026119408778817536}
   - component: {fileID: 2605281069727617806}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: CrumblyBlock
   m_TagString: Untagged
   m_Icon: {fileID: 0}

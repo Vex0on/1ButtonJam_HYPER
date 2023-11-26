@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3431017621881057717}
   - component: {fileID: 4575570544570507069}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: MovingBlock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,7 +48,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerRB: {fileID: 0}
-  _playerController: {fileID: 0}
+  _playerSpriteRenderer: {fileID: 0}
+  _timeElapsedStandingOnBlock: 0
+  _buffApplyTime: 5
   waypoint_start: {fileID: 4292994729259210359}
   waypoint_end: {fileID: 6053524214095276522}
   platform: {fileID: 8538711870143866022}
@@ -63,7 +65,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6053524214095276522}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: WaypointEnd
   m_TagString: Untagged
   m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
@@ -97,7 +99,7 @@ GameObject:
   - component: {fileID: 3521456921239097306}
   - component: {fileID: 5970210524000308359}
   - component: {fileID: 8538711870143866022}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Platform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -253,7 +255,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4292994729259210359}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: WaypointStart
   m_TagString: Untagged
   m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}

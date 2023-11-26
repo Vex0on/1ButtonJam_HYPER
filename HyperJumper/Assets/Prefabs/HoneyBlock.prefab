@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 373100269136013818}
   - component: {fileID: 8249309263918068509}
   - component: {fileID: 6989632337991727181}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: HoneyBlock
   m_TagString: Untagged
   m_Icon: {fileID: 0}

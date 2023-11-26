@@ -29,10 +29,6 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] private float _heightLevelPoint;
     [SerializeField] private GameObject _currentGenerateRoom;
 
-    //poziom ma wysokosc 12
-    //1.767 od currentLevel do generowania poziomu
-    //14.862
-    //16.645
 
     private void Update()
     {
