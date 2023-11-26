@@ -5,6 +5,7 @@ public class PlayerController : MonoBehaviour
 {
     public LevelGenerator LevelGenerator;
     public Rigidbody2D rb;
+    public SpriteRenderer spriteRenderer;
 
     [Header("GameObjects")]
     [SerializeField] private Transform foot;
@@ -107,7 +108,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.TryGetComponent(out Block block))
         {
             block._playerRB = rb;
-            block._playerSpriteRenderer = GetComponent<SpriteRenderer>();
+            block._playerSpriteRenderer = spriteRenderer;
             _block = block;
             _block.OnEnter(this);
         }
@@ -129,7 +130,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.TryGetComponent(out LadderBlock ladderBlock))
         {
             ladderBlock._playerRB = rb;
-            ladderBlock._playerSpriteRenderer = GetComponent<SpriteRenderer>();
+            ladderBlock._playerSpriteRenderer = spriteRenderer;
             _ladderBlock = ladderBlock;
         }
     }
