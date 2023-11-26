@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -107,7 +106,6 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.TryGetComponent(out Block block))
         {
-            StopAllCoroutines();
             block._playerRB = rb;
             block._playerSpriteRenderer = GetComponent<SpriteRenderer>();
             _block = block;
@@ -175,40 +173,5 @@ public class PlayerController : MonoBehaviour
     public float GetCurrentHeight()
     {
         return foot.position.y;
-    }
-    public void ResetVars(Color spriteDebuffColor)
-    {
-        StartCoroutine(ResetVariablesGradually(_block.timeToDissipateBuff, spriteDebuffColor));
-    }
-
-    private IEnumerator ResetVariablesGradually(float timeToDissipateDebuff, Color color)
-    {
-        float time = timeToDissipateDebuff;
-        float currentVerticalIncrease = currentBlockVerticalIncrease;
-        float currentJumpIncrease = currentBlockJumpIncrease;
-        SpriteRenderer sr = GetComponent<SpriteRenderer>();
-
-        while (time >= 0)
-        {
-            time -= Time.deltaTime;
-            sr.color = Color.Lerp(Color.white, color, time / timeToDissipateDebuff);
-            currentBlockJumpIncrease = Mathf.Lerp(1f, currentJumpIncrease, time / timeToDissipateDebuff);
-            currentBlockVerticalIncrease = Mathf.Lerp(1f, currentVerticalIncrease, time / timeToDissipateDebuff);
-            honeyParticles.Emit(Mathf.FloorToInt(time));
-
-            yield return null;
-        }
-    }
-    public double GetSpaceHoldTime()
-    {
-        return _spaceHoldTime;
-    }
-    public float GetMaxJumpHigh()
-    {
-        return _maxJumpHigh;
-    }
-    public float GetShortPressTime()
-    {
-        return _shortPressTime;
     }
 }

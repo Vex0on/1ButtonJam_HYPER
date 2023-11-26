@@ -9,6 +9,7 @@ public class StickyBlock : Block
     [SerializeField] private float _stickyBlockJumpIncrease = 0.5f;
     [SerializeField] private float _stickyBlockVerticalIncrease = 0.5f;
     [SerializeField] private float _savedDrag = 0;
+    [SerializeField] private float _timeToDissipateDebuff;
 
     public override void OnEnter(PlayerController player)
     {
@@ -25,7 +26,7 @@ public class StickyBlock : Block
     public override void OnExit()
     {
         _playerRB.drag = _savedDrag;
-        _playerController.ResetVars(Color.yellow);
+        StartCoroutine(DecreaseStickyDebuffOT(_timeToDissipateDebuff));
         _timeElapsedStandingOnBlock = 0f;
         _playerController.honeyParticles.Stop();
     }
@@ -46,5 +47,27 @@ public class StickyBlock : Block
         _playerController.honeyParticles.Emit(particleCount);
 
 
+    }
+    private IEnumerator DecreaseStickyDebuffOT(float timeToDissipateDebuff)
+    {
+        float time = timeToDissipateDebuff;
+        float currentVerticalIncrease = _playerController.currentBlockVerticalIncrease;
+        float currentJumpIncrease = _playerController.currentBlockJumpIncrease;
+
+        while (time >= 0)
+        {
+            time -= Time.deltaTime;
+            _playerSpriteRenderer.color = Color.Lerp(Color.white, Color.yellow, time / timeToDissipateDebuff);
+
+            _playerController.currentBlockJumpIncrease = Mathf.Lerp(1f, currentJumpIncrease, time / timeToDissipateDebuff);
+
+            _playerController.currentBlockVerticalIncrease = Mathf.Lerp(1f, currentVerticalIncrease, time / timeToDissipateDebuff);
+
+            float particleMultiplier = Mathf.Lerp(0f, 1f, time / timeToDissipateDebuff);
+            int particleCount = Mathf.CeilToInt(particleMultiplier);
+            _playerController.honeyParticles.Emit(particleCount);
+
+            yield return null;
+        }
     }
 }
