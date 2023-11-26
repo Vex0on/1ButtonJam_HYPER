@@ -14,7 +14,6 @@ public class LadderBlock : Block
     }
     public override void OnExit()
     {
-        _playerRB.drag = 0;
         _timeElapsedStandingOnBlock = 0f;
     }
 }

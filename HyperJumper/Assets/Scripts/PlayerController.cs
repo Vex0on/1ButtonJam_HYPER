@@ -81,6 +81,8 @@ public class PlayerController : MonoBehaviour
 
     private void Jump(float horizontalBuff, float verticalBuff)
     {
+        rb.drag = 0;
+
         _isGrounded = IsGrounded();
         if (!canJump && !_isGrounded) return;
 
