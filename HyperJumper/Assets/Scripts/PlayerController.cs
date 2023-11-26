@@ -174,4 +174,16 @@ public class PlayerController : MonoBehaviour
     {
         return foot.position.y;
     }
+    public double GetSpaceHoldTime()
+    {
+        return _spaceHoldTime;
+    }
+    public float GetMaxJumpHigh()
+    {
+        return _maxJumpHigh;
+    }
+    public float GetShortPressTime()
+    {
+        return _shortPressTime;
+    }
 }

@@ -21,7 +21,7 @@ public class FireBlock : Block
     }
     public override void OnExit()
     {
-        _playerController.ResetVars(Color.red);
+        StartCoroutine(DecreaseFireBuffOT(timeToDissipateBuff));
         _timeElapsedStandingOnBlock = 0f;
     }
 
