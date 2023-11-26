@@ -1,9 +1,10 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    private Rigidbody2D rb;
+    public Rigidbody2D rb;
 
     [Header("GameObjects")]
     [SerializeField] private GameObject arrow;
@@ -18,6 +19,16 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private double _startSpaceHoldTime;
     [SerializeField] private double _spaceHoldTime;
+
+
+    [SerializeField] public float _currentBlockVerticalIncrease = 1f;
+    [SerializeField] public float _currentBlockJumpIncrease = 1f;
+    [Header("VFX")]
+    [SerializeField] public ParticleSystem fireParticles;
+    [SerializeField] public ParticleSystem honeyParticles;
+
+    [SerializeField] private Block _block;
+    [SerializeField] private LadderBlock _ladderBlock;
 
     void Start()
     {
@@ -37,9 +48,16 @@ public class PlayerController : MonoBehaviour
                 _spaceHoldTime = context.time - _startSpaceHoldTime;
 
                 if (_spaceHoldTime < _shortPressTime)
+                {
                     DirectionRotation();
+                    if (_ladderBlock == null) break;
+                    _ladderBlock.OnEnter(this);
+                }
                 else
-                    Jump();
+                {
+                    rb.drag = 0f;
+                    Jump(_currentBlockVerticalIncrease, _currentBlockJumpIncrease);
+                }
 
                 break;
         }
@@ -55,7 +73,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void Jump()
+    private void Jump(float horizontalBuff, float verticalBuff)
     {
         float jumpForce = CalculateJumpForce();
 
@@ -63,7 +81,7 @@ public class PlayerController : MonoBehaviour
         float horizontalMultiplier = 0.5f;
 
         Vector2 jumpDirection = player.transform.right;
-        Vector2 jumpForceVector = new(jumpDirection.x * jumpForce * horizontalMultiplier, jumpForce * verticalMultiplier);
+        Vector2 jumpForceVector = new Vector2(jumpDirection.x * jumpForce * horizontalMultiplier * horizontalBuff, jumpForce * verticalMultiplier * verticalBuff);
 
         rb.AddForce(jumpForceVector, ForceMode2D.Impulse);
     }
@@ -76,4 +94,40 @@ public class PlayerController : MonoBehaviour
         return jumpForce;
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.TryGetComponent(out Block block))
+        {
+            block._playerRB = rb;
+            block._playerSpriteRenderer = GetComponent<SpriteRenderer>();
+            _block = block;
+            _block.OnEnter(this);
+        }
+    }
+    private void Update()
+    {
+        if (_block == null) return;
+        _block.OnStay();
+    }
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (_block == null) return;
+        _block.OnExit();
+        _block = null;
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.TryGetComponent(out LadderBlock ladderBlock))
+        {
+            ladderBlock._playerRB = rb;
+            ladderBlock._playerSpriteRenderer = GetComponent<SpriteRenderer>();
+            _ladderBlock = ladderBlock;
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if(_ladderBlock == null) return;
+        _ladderBlock.OnExit();
+        _ladderBlock = null;
+    }
 }
