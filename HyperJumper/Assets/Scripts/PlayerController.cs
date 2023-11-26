@@ -154,4 +154,16 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
     }
+    public double GetSpaceHoldTime()
+    {
+        return _spaceHoldTime;
+    }
+    public float GetMaxJumpHigh()
+    {
+        return _maxJumpHigh;
+    }
+    public float GetShortPressTime()
+    {
+        return _shortPressTime;
+    }
 }
