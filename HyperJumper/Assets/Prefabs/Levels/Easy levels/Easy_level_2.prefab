@@ -177,7 +177,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2818492594954757069}
   m_Layer: 0
-  m_Name: Easy_Level_2
+  m_Name: Easy_level_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1773,7 +1773,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6299795647101441594, guid: ae6b766d11a0c6a4bbc62330c4675a82, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.3624
+      value: 3.4833844
       objectReference: {fileID: 0}
     - target: {fileID: 6299795647101441594, guid: ae6b766d11a0c6a4bbc62330c4675a82, type: 3}
       propertyPath: m_LocalScale.z
@@ -1785,7 +1785,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6299795647101441594, guid: ae6b766d11a0c6a4bbc62330c4675a82, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.095777
+      value: 4.6048
       objectReference: {fileID: 0}
     - target: {fileID: 6299795647101441594, guid: ae6b766d11a0c6a4bbc62330c4675a82, type: 3}
       propertyPath: m_LocalPosition.z
