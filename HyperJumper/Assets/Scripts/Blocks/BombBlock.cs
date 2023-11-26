@@ -26,8 +26,8 @@ public class BombBlock : Block
         Vector2 explosionDirection = _playerController.transform.position - transform.position;
 
         _playerRB.AddForce(explosionDirection.normalized * _explosionForce, ForceMode2D.Impulse);
-        _playerController._currentBlockJumpIncrease = _explosionJumpIncrease;
-        _playerController._currentBlockVerticalIncrease = _explosionVerticalIncrease;
+        _playerController.currentBlockJumpIncrease = _explosionJumpIncrease;
+        _playerController.currentBlockVerticalIncrease = _explosionVerticalIncrease;
         ParticleSystem explosionParticle = Instantiate(_explosionVFX, this.transform);
         explosionParticle.Play();
         StartCoroutine(CreateExplosionVFX());
@@ -36,17 +36,17 @@ public class BombBlock : Block
     private IEnumerator DecreaseExplosionDebuff(float timeToDissipateDebuff)
     {
         float time = timeToDissipateDebuff;
-        float currentVerticalIncrease = _playerController._currentBlockVerticalIncrease;
-        float currentJumpIncrease = _playerController._currentBlockJumpIncrease;
+        float currentVerticalIncrease = _playerController.currentBlockVerticalIncrease;
+        float currentJumpIncrease = _playerController.currentBlockJumpIncrease;
 
         while (time >= 0)
         {
             time -= Time.deltaTime;
             _playerSpriteRenderer.color = Color.Lerp(Color.white, Color.red, time / timeToDissipateDebuff);
 
-            _playerController._currentBlockJumpIncrease = Mathf.Lerp(1f, currentJumpIncrease, time / timeToDissipateDebuff);
+            _playerController.currentBlockJumpIncrease = Mathf.Lerp(1f, currentJumpIncrease, time / timeToDissipateDebuff);
 
-            _playerController._currentBlockVerticalIncrease = Mathf.Lerp(1f, currentVerticalIncrease, time / timeToDissipateDebuff);
+            _playerController.currentBlockVerticalIncrease = Mathf.Lerp(1f, currentVerticalIncrease, time / timeToDissipateDebuff);
 
             _playerController.honeyParticles.Emit(Mathf.FloorToInt(time));
 
