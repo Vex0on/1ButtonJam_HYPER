@@ -26,8 +26,9 @@ public class StickyBlock : Block
     public override void OnExit()
     {
         _playerRB.drag = _savedDrag;
-        StartCoroutine(DecreaseStickyDebuffOT(_timeToDissipateDebuff));
+        StartCoroutine(DecreaseStickyDebuffOT(_timeElapsedStandingOnBlock / _timeToDissipateDebuff));
         _timeElapsedStandingOnBlock = 0f;
+        _playerController.honeyParticles.Stop();
     }
 
     private void IncreaseStickyDebuff(PlayerController player)
@@ -41,7 +42,10 @@ public class StickyBlock : Block
 
         _playerController._currentBlockVerticalIncrease = Mathf.Lerp(_playerController._currentBlockVerticalIncrease, _stickyBlockVerticalIncrease, _timeElapsedStandingOnBlock / _buffApplyTime);
 
-        _playerController.honeyParticles.Emit(Mathf.FloorToInt(_timeElapsedStandingOnBlock));
+        float particleMultiplier = Mathf.Lerp(0f, 1f, _timeElapsedStandingOnBlock / _buffApplyTime);
+        int particleCount = Mathf.CeilToInt(particleMultiplier);
+        _playerController.honeyParticles.Emit(particleCount);
+
 
     }
     private IEnumerator DecreaseStickyDebuffOT(float timeToDissipateDebuff)
@@ -59,7 +63,9 @@ public class StickyBlock : Block
 
             _playerController._currentBlockVerticalIncrease = Mathf.Lerp(1f, currentVerticalIncrease, time / timeToDissipateDebuff);
 
-            _playerController.honeyParticles.Emit(Mathf.FloorToInt(time));
+            float particleMultiplier = Mathf.Lerp(0f, 1f, time / timeToDissipateDebuff);
+            int particleCount = Mathf.CeilToInt(particleMultiplier);
+            _playerController.honeyParticles.Emit(particleCount);
 
             yield return null;
         }

@@ -22,19 +22,21 @@ public class FireBlock : Block
     }
     public override void OnExit()
     {
-        StartCoroutine(DecreaseFireBuffOT(_timeToDissipateBuff));
+        StartCoroutine(DecreaseFireBuffOT(_timeElapsedStandingOnBlock / _timeToDissipateBuff));
         _timeElapsedStandingOnBlock = 0f;
     }
 
     private void IncreaseFireBuff(PlayerController player)
     {
-        _playerSpriteRenderer.color = Color.Lerp(Color.white, Color.yellow, _timeElapsedStandingOnBlock / _buffApplyTime);
+        _playerSpriteRenderer.color = Color.Lerp(Color.white, Color.red, _timeElapsedStandingOnBlock / _buffApplyTime);
 
         _playerController._currentBlockJumpIncrease = Mathf.Lerp(_playerController._currentBlockJumpIncrease, _fireBlockJumpIncrease, _timeElapsedStandingOnBlock / _buffApplyTime);
 
         _playerController._currentBlockVerticalIncrease = Mathf.Lerp(_playerController._currentBlockVerticalIncrease, _fireBlockVerticalIncrease, _timeElapsedStandingOnBlock / _buffApplyTime);
 
-        _playerController.honeyParticles.Emit(Mathf.FloorToInt(_timeElapsedStandingOnBlock));
+        float particleMultiplier = Mathf.Lerp(0f,1f,_timeElapsedStandingOnBlock/_buffApplyTime);
+        int particleCount = Mathf.CeilToInt(particleMultiplier);
+        _playerController.fireParticles.Emit(particleCount);
 
     }
     private IEnumerator DecreaseFireBuffOT(float timeToDissipateDebuff)
@@ -52,7 +54,9 @@ public class FireBlock : Block
 
             _playerController._currentBlockVerticalIncrease = Mathf.Lerp(1f, currentVerticalIncrease, time / timeToDissipateDebuff);
 
-            _playerController.fireParticles.Emit(Mathf.FloorToInt(time));
+            float particleMultiplier = Mathf.Lerp(0f, 1f, time / timeToDissipateDebuff);
+            int particleCount = Mathf.CeilToInt(particleMultiplier);
+            _playerController.fireParticles.Emit(particleCount);
 
             yield return null;
         }
