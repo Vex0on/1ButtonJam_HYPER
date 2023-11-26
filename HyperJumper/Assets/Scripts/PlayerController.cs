@@ -80,8 +80,6 @@ public class PlayerController : MonoBehaviour
 
     private void Jump(float horizontalBuff, float verticalBuff)
     {
-        rb.drag = 0;
-
         _isGrounded = IsGrounded();
         if (!canJump && !_isGrounded) return;
 
@@ -175,5 +173,17 @@ public class PlayerController : MonoBehaviour
     public float GetCurrentHeight()
     {
         return foot.position.y;
+    }
+    public double GetSpaceHoldTime()
+    {
+        return _spaceHoldTime;
+    }
+    public float GetMaxJumpHigh()
+    {
+        return _maxJumpHigh;
+    }
+    public float GetShortPressTime()
+    {
+        return _shortPressTime;
     }
 }

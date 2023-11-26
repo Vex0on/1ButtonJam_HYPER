@@ -7,7 +7,6 @@ public class FireBlock : Block
 
     [SerializeField] private float _fireBlockJumpIncrease = 1.5f;
     [SerializeField] private float _fireBlockVerticalIncrease = 1.5f;
-    [SerializeField] private float _timeToDissipateBuff;
 
     public override void OnEnter(PlayerController player)
     {
@@ -22,7 +21,7 @@ public class FireBlock : Block
     }
     public override void OnExit()
     {
-        StartCoroutine(DecreaseFireBuffOT(_timeToDissipateBuff));
+        StartCoroutine(DecreaseFireBuffOT(timeToDissipateBuff));
         _timeElapsedStandingOnBlock = 0f;
     }
 

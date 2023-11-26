@@ -101,12 +101,12 @@ MonoBehaviour:
   _playerRB: {fileID: 0}
   _playerSpriteRenderer: {fileID: 0}
   _timeElapsedStandingOnBlock: 0
+  timeToDissipateBuff: 2
   _buffApplyTime: 2
   _stickyBlockSlowdown: 100
   _stickyBlockJumpIncrease: 0.75
   _stickyBlockVerticalIncrease: 0.75
   _savedDrag: 0
-  _timeToDissipateDebuff: 5
 --- !u!61 &6989632337991727181
 BoxCollider2D:
   m_ObjectHideFlags: 0
