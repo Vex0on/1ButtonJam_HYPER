@@ -22,7 +22,7 @@ public class FireBlock : Block
     }
     public override void OnExit()
     {
-        StartCoroutine(DecreaseFireBuffOT(_timeElapsedStandingOnBlock / _timeToDissipateBuff));
+        StartCoroutine(DecreaseFireBuffOT(_timeToDissipateBuff));
         _timeElapsedStandingOnBlock = 0f;
     }
 

@@ -26,7 +26,7 @@ public class StickyBlock : Block
     public override void OnExit()
     {
         _playerRB.drag = _savedDrag;
-        StartCoroutine(DecreaseStickyDebuffOT(_timeElapsedStandingOnBlock / _timeToDissipateDebuff));
+        StartCoroutine(DecreaseStickyDebuffOT(_timeToDissipateDebuff));
         _timeElapsedStandingOnBlock = 0f;
         _playerController.honeyParticles.Stop();
     }
