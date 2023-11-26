@@ -3715,7 +3715,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LevelGenerator: {fileID: 1314258862}
   rb: {fileID: 870210126}
-  spriteRenderer: {fileID: 0}
+  spriteRenderer: {fileID: 1288843492}
   foot: {fileID: 815342748}
   arrow: {fileID: 383013640}
   menu: {fileID: 3216529}
