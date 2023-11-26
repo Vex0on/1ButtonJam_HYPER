@@ -25,8 +25,8 @@ public class BombBlock : Block
         Vector2 explosionDirection = _playerController.transform.position - transform.position;
 
         _playerRB.AddForce(explosionDirection.normalized * _explosionForce, ForceMode2D.Impulse);
-        _playerController._currentBlockJumpIncrease = _explosionJumpIncrease;
-        _playerController._currentBlockVerticalIncrease = _explosionVerticalIncrease;
+        _playerController.currentBlockJumpIncrease = _explosionJumpIncrease;
+        _playerController.currentBlockVerticalIncrease = _explosionVerticalIncrease;
         ParticleSystem explosionParticle = Instantiate(_explosionVFX, this.transform);
         explosionParticle.Play();
         StartCoroutine(CreateExplosionVFX());

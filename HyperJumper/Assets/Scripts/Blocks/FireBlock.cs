@@ -29,9 +29,9 @@ public class FireBlock : Block
     {
         _playerSpriteRenderer.color = Color.Lerp(Color.white, Color.red, _timeElapsedStandingOnBlock / _buffApplyTime);
 
-        _playerController._currentBlockJumpIncrease = Mathf.Lerp(_playerController._currentBlockJumpIncrease, _fireBlockJumpIncrease, _timeElapsedStandingOnBlock / _buffApplyTime);
+        _playerController.currentBlockJumpIncrease = Mathf.Lerp(_playerController.currentBlockJumpIncrease, _fireBlockJumpIncrease, _timeElapsedStandingOnBlock / _buffApplyTime);
 
-        _playerController._currentBlockVerticalIncrease = Mathf.Lerp(_playerController._currentBlockVerticalIncrease, _fireBlockVerticalIncrease, _timeElapsedStandingOnBlock / _buffApplyTime);
+        _playerController.currentBlockVerticalIncrease = Mathf.Lerp(_playerController.currentBlockVerticalIncrease, _fireBlockVerticalIncrease, _timeElapsedStandingOnBlock / _buffApplyTime);
 
         float particleMultiplier = Mathf.Lerp(0f,1f,_timeElapsedStandingOnBlock/_buffApplyTime);
         int particleCount = Mathf.CeilToInt(particleMultiplier);
@@ -41,17 +41,17 @@ public class FireBlock : Block
     private IEnumerator DecreaseFireBuffOT(float timeToDissipateDebuff)
     {
         float time = timeToDissipateDebuff;
-        float currentVerticalIncrease = _playerController._currentBlockVerticalIncrease;
-        float currentJumpIncrease = _playerController._currentBlockJumpIncrease;
+        float currentVerticalIncrease = _playerController.currentBlockVerticalIncrease;
+        float currentJumpIncrease = _playerController.currentBlockJumpIncrease;
 
         while (time >= 0)
         {
             time -= Time.deltaTime;
             _playerSpriteRenderer.color = Color.Lerp(Color.white, Color.red, time / timeToDissipateDebuff);
 
-            _playerController._currentBlockJumpIncrease = Mathf.Lerp(1f, currentJumpIncrease, time / timeToDissipateDebuff);
+            _playerController.currentBlockJumpIncrease = Mathf.Lerp(1f, currentJumpIncrease, time / timeToDissipateDebuff);
 
-            _playerController._currentBlockVerticalIncrease = Mathf.Lerp(1f, currentVerticalIncrease, time / timeToDissipateDebuff);
+            _playerController.currentBlockVerticalIncrease = Mathf.Lerp(1f, currentVerticalIncrease, time / timeToDissipateDebuff);
 
             float particleMultiplier = Mathf.Lerp(0f, 1f, time / timeToDissipateDebuff);
             int particleCount = Mathf.CeilToInt(particleMultiplier);

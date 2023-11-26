@@ -37,9 +37,9 @@ public class StickyBlock : Block
         if(_playerRB.drag < _stickyBlockSlowdown)
             _playerRB.drag += 3;
 
-        _playerController._currentBlockJumpIncrease = Mathf.Lerp(_playerController._currentBlockJumpIncrease, _stickyBlockJumpIncrease, _timeElapsedStandingOnBlock / _buffApplyTime);
+        _playerController.currentBlockJumpIncrease = Mathf.Lerp(_playerController.currentBlockJumpIncrease, _stickyBlockJumpIncrease, _timeElapsedStandingOnBlock / _buffApplyTime);
 
-        _playerController._currentBlockVerticalIncrease = Mathf.Lerp(_playerController._currentBlockVerticalIncrease, _stickyBlockVerticalIncrease, _timeElapsedStandingOnBlock / _buffApplyTime);
+        _playerController.currentBlockVerticalIncrease = Mathf.Lerp(_playerController.currentBlockVerticalIncrease, _stickyBlockVerticalIncrease, _timeElapsedStandingOnBlock / _buffApplyTime);
 
         float particleMultiplier = Mathf.Lerp(0f, 1f, _timeElapsedStandingOnBlock / _buffApplyTime);
         int particleCount = Mathf.CeilToInt(particleMultiplier);

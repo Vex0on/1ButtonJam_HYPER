@@ -4,12 +4,18 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    public LevelGenerator LevelGenerator;
     public Rigidbody2D rb;
 
     [Header("GameObjects")]
+    [SerializeField] private Transform foot;
     [SerializeField] private GameObject arrow;
-    [SerializeField] private GameObject player;
-    [SerializeField] private MainMenu menu;
+    public MainMenu menu;
+
+    [Header("Values")]
+    [SerializeField] private float _groundCheckWidth;
+    [SerializeField] private float _distanceToGround;
+    public LayerMask groundLayer;
 
     [Header("Stats")]
     [SerializeField] private float _maxJumpHigh = 2f;
@@ -20,20 +26,22 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private double _startSpaceHoldTime;
     [SerializeField] private double _spaceHoldTime;
 
+    public float currentBlockVerticalIncrease = 1f;
+    public float currentBlockJumpIncrease = 1f;
 
-    [SerializeField] public float _currentBlockVerticalIncrease = 1f;
-    [SerializeField] public float _currentBlockJumpIncrease = 1f;
     [Header("VFX")]
-    [SerializeField] public ParticleSystem fireParticles;
-    [SerializeField] public ParticleSystem honeyParticles;
+    public ParticleSystem fireParticles;
+    public ParticleSystem honeyParticles;
 
+    [Header("Read Only")]
     [SerializeField] private Block _block;
     [SerializeField] private LadderBlock _ladderBlock;
 
-    void Start()
-    {
-        rb = player.GetComponent<Rigidbody2D>();
-    }
+    [Header("Debug")]
+    public bool canJump;
+    [SerializeField] private bool _isGrounded;
+    [SerializeField] private Vector2 jumpForceVector;
+
 
     public void Jump(InputAction.CallbackContext context)
     {
@@ -49,43 +57,44 @@ public class PlayerController : MonoBehaviour
 
                 if (_spaceHoldTime < _shortPressTime)
                 {
-                    DirectionRotation();
+                    ChangeDirection();
+
                     if (_ladderBlock == null) break;
                     _ladderBlock.OnEnter(this);
                 }
                 else
                 {
-                    rb.drag = 0f;
-                    Jump(_currentBlockVerticalIncrease, _currentBlockJumpIncrease);
+                    Jump(currentBlockVerticalIncrease, currentBlockJumpIncrease);
                 }
 
                 break;
         }
     }
 
-    private void DirectionRotation()
+    private void ChangeDirection()
     {
-        player.transform.Rotate(Vector3.up, 180f);
+        transform.Rotate(Vector3.up, 180f);
 
-        if (arrow != null)
-        {
-            arrow.transform.rotation = Quaternion.Euler(0, player.transform.eulerAngles.y, 0);
-        }
+        if (arrow == null) return;
+        arrow.transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
     }
 
     private void Jump(float horizontalBuff, float verticalBuff)
     {
+        _isGrounded = IsGrounded();
+        if (!canJump && !_isGrounded) return;
+
         float jumpForce = CalculateJumpForce();
 
         float verticalMultiplier = 2f;
         float horizontalMultiplier = 0.5f;
 
-        Vector2 jumpDirection = player.transform.right;
-        Vector2 jumpForceVector = new Vector2(jumpDirection.x * jumpForce * horizontalMultiplier * horizontalBuff, jumpForce * verticalMultiplier * verticalBuff);
+        Vector2 jumpDirection = transform.right;
+        jumpForceVector = new(jumpDirection.x * jumpForce * horizontalMultiplier * horizontalBuff, jumpForce * verticalMultiplier * verticalBuff);
 
         rb.AddForce(jumpForceVector, ForceMode2D.Impulse);
+        canJump = false;
     }
-
     private float CalculateJumpForce()
     {
         float jumpForceHeight = Mathf.Clamp((float)_spaceHoldTime, 0f, _maxJumpHigh);
@@ -116,6 +125,7 @@ public class PlayerController : MonoBehaviour
         _block.OnExit();
         _block = null;
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.TryGetComponent(out LadderBlock ladderBlock))
@@ -127,9 +137,44 @@ public class PlayerController : MonoBehaviour
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if(_ladderBlock == null) return;
+        if (_ladderBlock == null) return;
         _ladderBlock.OnExit();
         _ladderBlock = null;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawRay(new Ray(transform.position, jumpForceVector));
+
+        Gizmos.color = Color.blue;
+        Vector2 position = foot.position;
+
+        Vector2 bottomLeft = position + new Vector2(-_groundCheckWidth, -_distanceToGround);
+        Vector2 bottomRight = position + new Vector2(_groundCheckWidth, -_distanceToGround);
+
+        Gizmos.DrawLine(bottomLeft, bottomRight);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(foot.transform.position, LevelGenerator.distanceToNextLevel);
+    }
+
+    private bool IsGrounded()
+    {
+        Vector2 position = foot.position;
+
+        Vector2 bottomLeft = position + new Vector2(-_groundCheckWidth, 0f);
+        Vector2 bottomRight = position + new Vector2(_groundCheckWidth, 0f);
+
+        RaycastHit2D hitLeft = Physics2D.Raycast(bottomLeft, Vector2.down, _distanceToGround, groundLayer);
+        RaycastHit2D hitRight = Physics2D.Raycast(bottomRight, Vector2.down, _distanceToGround, groundLayer);
+
+        return hitLeft.collider != null || hitRight.collider != null;
+    }
+
+    public float GetCurrentHeight()
+    {
+        return foot.position.y;
     }
     public void ResetVars(Color spriteDebuffColor)
     {
@@ -139,16 +184,16 @@ public class PlayerController : MonoBehaviour
     private IEnumerator ResetVariablesGradually(float timeToDissipateDebuff, Color color)
     {
         float time = timeToDissipateDebuff;
-        float currentVerticalIncrease = _currentBlockVerticalIncrease;
-        float currentJumpIncrease = _currentBlockJumpIncrease;
+        float currentVerticalIncrease = currentBlockVerticalIncrease;
+        float currentJumpIncrease = currentBlockJumpIncrease;
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
 
         while (time >= 0)
         {
             time -= Time.deltaTime;
             sr.color = Color.Lerp(Color.white, color, time / timeToDissipateDebuff);
-            _currentBlockJumpIncrease = Mathf.Lerp(1f, currentJumpIncrease, time / timeToDissipateDebuff);
-            _currentBlockVerticalIncrease = Mathf.Lerp(1f, currentVerticalIncrease, time / timeToDissipateDebuff);
+            currentBlockJumpIncrease = Mathf.Lerp(1f, currentJumpIncrease, time / timeToDissipateDebuff);
+            currentBlockVerticalIncrease = Mathf.Lerp(1f, currentVerticalIncrease, time / timeToDissipateDebuff);
             honeyParticles.Emit(Mathf.FloorToInt(time));
 
             yield return null;
