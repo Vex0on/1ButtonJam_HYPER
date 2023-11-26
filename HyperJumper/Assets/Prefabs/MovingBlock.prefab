@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3431017621881057717}
-  - component: {fileID: 8303800578842845144}
-  m_Layer: 0
+  - component: {fileID: 4575570544570507069}
+  m_Layer: 8
   m_Name: MovingBlock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35,7 +35,7 @@ Transform:
   - {fileID: 6053524214095276522}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8303800578842845144
+--- !u!114 &4575570544570507069
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -55,7 +55,7 @@ MonoBehaviour:
   waypoint_end: {fileID: 6053524214095276522}
   platform: {fileID: 8538711870143866022}
   movementTime: 3
-  waypointThreshold: 0.1
+  waypointThreshold: 0.01
 --- !u!1 &4118716960509506947
 GameObject:
   m_ObjectHideFlags: 0
@@ -65,7 +65,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6053524214095276522}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: WaypointEnd
   m_TagString: Untagged
   m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 3521456921239097306}
   - component: {fileID: 5970210524000308359}
   - component: {fileID: 8538711870143866022}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Platform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -183,7 +183,7 @@ BoxCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: ac4e42fe06d73e249ab56fb28860f485, type: 2}
+  m_Material: {fileID: 6200000, guid: f2e7df195182d00499ac75ec54730691, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -255,7 +255,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4292994729259210359}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: WaypointStart
   m_TagString: Untagged
   m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
