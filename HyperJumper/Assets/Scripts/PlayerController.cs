@@ -64,6 +64,7 @@ public class PlayerController : MonoBehaviour
                 }
                 else
                 {
+                    rb.drag = 0f;
                     Jump(currentBlockVerticalIncrease, currentBlockJumpIncrease);
                 }
 

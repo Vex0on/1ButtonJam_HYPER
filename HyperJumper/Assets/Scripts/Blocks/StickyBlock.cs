@@ -22,6 +22,7 @@ public class StickyBlock : Block
         if(_timeElapsedStandingOnBlock < _buffApplyTime)
             _timeElapsedStandingOnBlock += Time.deltaTime;
         IncreaseStickyDebuff(_playerController);
+        _playerController.canJump = true;
     }
     public override void OnExit()
     {
