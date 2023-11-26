@@ -32,7 +32,11 @@ public class CrumblyBlock : Block
             StartCoroutine(ActivateObjectAfterTime(_waitTimeForBlockRespawn));
         }
     }
-    IEnumerator ActivateObjectAfterTime(float waitTime)
+    public override void OnExit()
+    {
+        _timeElapsedStandingOnBlock = 0f;
+    }
+    private IEnumerator ActivateObjectAfterTime(float waitTime)
     {
         gameObject.SetActive(false);
         yield return new WaitForSeconds(waitTime);

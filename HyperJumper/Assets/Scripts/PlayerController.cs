@@ -28,6 +28,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public ParticleSystem honeyParticles;
 
     [SerializeField] private Block _block;
+    [SerializeField] private LadderBlock _ladderBlock;
+
     void Start()
     {
         rb = player.GetComponent<Rigidbody2D>();
@@ -46,7 +48,11 @@ public class PlayerController : MonoBehaviour
                 _spaceHoldTime = context.time - _startSpaceHoldTime;
 
                 if (_spaceHoldTime < _shortPressTime)
+                {
                     DirectionRotation();
+                    if (_ladderBlock == null) break;
+                    _ladderBlock.OnEnter(this);
+                }
                 else
                 {
                     rb.drag = 0f;
@@ -108,5 +114,20 @@ public class PlayerController : MonoBehaviour
         if (_block == null) return;
         _block.OnExit();
         _block = null;
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.TryGetComponent(out LadderBlock ladderBlock))
+        {
+            ladderBlock._playerRB = rb;
+            ladderBlock._playerSpriteRenderer = GetComponent<SpriteRenderer>();
+            _ladderBlock = ladderBlock;
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if(_ladderBlock == null) return;
+        _ladderBlock.OnExit();
+        _ladderBlock = null;
     }
 }
