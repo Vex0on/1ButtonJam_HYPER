@@ -3,17 +3,19 @@ using UnityEngine;
 
 public class CrumblyBlock : Block
 {
-    private SpriteRenderer _objectSpriteRenderer;
+    public SpriteRenderer spriteRenderer;
+    public BoxCollider2D mainCollider;
+    public BoxCollider2D sideBouncesCollider;
+
     [SerializeField] private float _waitTimeForBlockRespawn;
     [SerializeField] private Sprite[] _destructionStageSprites;
     [SerializeField] private float _blockStageCrumbleTime;
-    private float _currentBlockStageCrumbleTime;
+    [SerializeField] private float _currentBlockStageCrumbleTime;
     private int _currentDestructionStage = 0;
 
     private void Start()
     {
-        _objectSpriteRenderer = GetComponent<SpriteRenderer>();
-        _objectSpriteRenderer.sprite = _destructionStageSprites[0];
+        spriteRenderer.sprite = _destructionStageSprites[0];
         _currentDestructionStage++;
         _currentBlockStageCrumbleTime = _blockStageCrumbleTime;
     }
@@ -22,23 +24,31 @@ public class CrumblyBlock : Block
         _timeElapsedStandingOnBlock += Time.deltaTime;
         if(_timeElapsedStandingOnBlock >= _currentBlockStageCrumbleTime)
         {
-            _objectSpriteRenderer.sprite = _destructionStageSprites[_currentDestructionStage];
+            spriteRenderer.sprite = _destructionStageSprites[_currentDestructionStage];
             _currentDestructionStage++;
             _currentBlockStageCrumbleTime += _blockStageCrumbleTime;
         }
         if(_currentDestructionStage == _destructionStageSprites.Length) 
         {
-            StartCoroutine(ActivateObjectAfterTime(_waitTimeForBlockRespawn));
+            StartCoroutine(ResetBlock(_waitTimeForBlockRespawn));
         }
     }
     public override void OnExit()
     {
         _timeElapsedStandingOnBlock = 0f;
     }
-    private IEnumerator ActivateObjectAfterTime(float waitTime)
+    private IEnumerator ResetBlock(float waitTime)
     {
-        gameObject.SetActive(false);
+        spriteRenderer.enabled = false;
+        mainCollider.enabled = false;
+        sideBouncesCollider.enabled = false;
         yield return new WaitForSeconds(waitTime);
-        gameObject.SetActive(true);
+        spriteRenderer.enabled = true;
+        mainCollider.enabled = true;
+        sideBouncesCollider.enabled = true;
+        _timeElapsedStandingOnBlock = 0f;
+        spriteRenderer.sprite = _destructionStageSprites[0];
+        _currentDestructionStage = 0;
+        _currentBlockStageCrumbleTime = 2;
     }
 }
