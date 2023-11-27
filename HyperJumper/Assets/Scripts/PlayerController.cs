@@ -23,9 +23,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _jumpForceMultiplier = 0.5f;
     [SerializeField] private float _shortPressTime = 0.2f;
 
-    [SerializeField] private double _startSpaceHoldTime;
-    [SerializeField] private double _spaceHoldTime;
-
     public float currentBlockVerticalIncrease = 1f;
     public float currentBlockJumpIncrease = 1f;
 
@@ -39,7 +36,9 @@ public class PlayerController : MonoBehaviour
 
     [Header("Debug")]
     public bool canJump;
+    [SerializeField] private bool _pressingSpace;
     [SerializeField] private bool _isGrounded;
+    [SerializeField] private double _spaceHoldTime;
     [SerializeField] private Vector2 jumpForceVector;
 
 
@@ -50,24 +49,23 @@ public class PlayerController : MonoBehaviour
         switch (context.phase)
         {
             case InputActionPhase.Started:
-                _startSpaceHoldTime = context.time;
+                _spaceHoldTime = 0;
+                _pressingSpace = true;
                 break;
             case InputActionPhase.Canceled:
-                _spaceHoldTime = context.time - _startSpaceHoldTime;
-
                 if (_spaceHoldTime < _shortPressTime)
                 {
                     ChangeDirection();
 
-                    if (_ladderBlock == null) break;
-                    _ladderBlock.OnEnter(this);
+                    if (_ladderBlock != null)
+                        _ladderBlock.OnEnter(this);
                 }
                 else
                 {
-                    rb.drag = 0f;
                     Jump(currentBlockVerticalIncrease, currentBlockJumpIncrease);
                 }
 
+                _pressingSpace = false;
                 break;
         }
     }
@@ -106,6 +104,17 @@ public class PlayerController : MonoBehaviour
         return jumpForce;
     }
 
+    private void Update()
+    {
+        if (!menu.isGameStarted) return;
+
+        if (_pressingSpace)
+            _spaceHoldTime += Time.deltaTime;
+
+        if (_block != null)
+            _block.OnStay();
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.TryGetComponent(out Block block))
@@ -115,11 +124,6 @@ public class PlayerController : MonoBehaviour
             _block = block;
             _block.OnEnter(this);
         }
-    }
-    private void Update()
-    {
-        if (_block == null) return;
-        _block.OnStay();
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
@@ -178,16 +182,8 @@ public class PlayerController : MonoBehaviour
     {
         return foot.position.y;
     }
-    public double GetSpaceHoldTime()
+    public float GetJumpPercentage()
     {
-        return _spaceHoldTime;
-    }
-    public float GetMaxJumpHigh()
-    {
-        return _maxJumpHigh;
-    }
-    public float GetShortPressTime()
-    {
-        return _shortPressTime;
+        return (float)_spaceHoldTime / _maxJumpHigh;
     }
 }

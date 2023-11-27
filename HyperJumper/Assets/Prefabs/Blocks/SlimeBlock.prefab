@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 282855648040169715}
   - component: {fileID: 8458337953527402980}
   - component: {fileID: 1297328903585956184}
+  - component: {fileID: 3013373121648028022}
   m_Layer: 8
   m_Name: SlimeBlock
   m_TagString: Untagged
@@ -131,3 +132,20 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.16, y: 0.16}
   m_EdgeRadius: 0
+--- !u!114 &3013373121648028022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 472162171983054610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dac78a2c7b9e09345b823e9d4131dd06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerRB: {fileID: 0}
+  _playerSpriteRenderer: {fileID: 0}
+  _timeElapsedStandingOnBlock: 0
+  timeToDissipateBuff: 0
+  _buffApplyTime: 5
