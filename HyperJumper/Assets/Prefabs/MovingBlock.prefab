@@ -50,6 +50,7 @@ MonoBehaviour:
   _playerRB: {fileID: 0}
   _playerSpriteRenderer: {fileID: 0}
   _timeElapsedStandingOnBlock: 0
+  timeToDissipateBuff: 0
   _buffApplyTime: 5
   waypoint_start: {fileID: 4292994729259210359}
   waypoint_end: {fileID: 6053524214095276522}
@@ -115,8 +116,8 @@ Transform:
   m_GameObject: {fileID: 4460494356015078187}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.19, y: -0.076, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -0.189, y: -0.075, z: 0}
+  m_LocalScale: {x: 0.11431136, y: 0.11431136, z: 0.11431136}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3431017621881057717}
@@ -162,7 +163,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: -7204871751463516972, guid: e679bcb1b68f46245b7864e2936a7d15, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -209,15 +210,15 @@ BoxCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0.049999997, y: 0.049999997, z: 0.049999997, w: 0.049999997}
+    border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.16, y: 0.16}
+    oldSize: {x: 2.58, y: 1.3}
     newSize: {x: 0.16, y: 0.16}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.16, y: 0.16}
+  m_Size: {x: 2.6, y: 1.3}
   m_EdgeRadius: 0
 --- !u!50 &8538711870143866022
 Rigidbody2D:
