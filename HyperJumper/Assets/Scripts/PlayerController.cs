@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     [Header("GameObjects")]
     [SerializeField] private Transform foot;
     [SerializeField] private GameObject arrow;
+    [SerializeField] private GameObject endScreen;
     public MainMenu menu;
 
     [Header("Values")]
@@ -107,6 +108,13 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         if (!menu.isGameStarted) return;
+
+        if(foot.position.y > 195f)
+        {
+            menu.isGameStarted = false;
+            rb.drag = 9999999;
+            endScreen.SetActive(true);
+        }
 
         if (_pressingSpace)
             _spaceHoldTime += Time.deltaTime;

@@ -7,8 +7,6 @@ public class LevelGenerator : MonoBehaviour
     public List<GameObject> mediumRooms = new();
     public List<GameObject> hardRooms = new();
 
-    public GameObject finishRoom;
-
     [Header("difficulty levels (14.862 - first level + 12 for every next)")]
     [SerializeField] private float easyLevel;
     [SerializeField] private float mediumLevel;
@@ -42,7 +40,7 @@ public class LevelGenerator : MonoBehaviour
             if (_levelHeightToGenerate > finishLevel)
             {
                 _isGenerating = false;
-                _currentGenerateRoom = finishRoom;
+                return;
             }
             else if (_levelHeightToGenerate > hardLevel)
                 _currentGenerateRoom = hardRooms[Random.Range(0, hardRooms.Count)];
