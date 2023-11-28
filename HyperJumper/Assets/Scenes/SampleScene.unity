@@ -161,16 +161,17 @@ MonoBehaviour:
   fullscreenToggle: {fileID: 0}
   resolutionPicker: {fileID: 0}
   playerNickname: {fileID: 0}
-  videoClips:
-  - {fileID: 32900000, guid: a83d6d0be4d556044bbcb7b58df91ab9, type: 3}
-  - {fileID: 32900000, guid: c06b59adb2aea6a4a868b5f08fbd7c87, type: 3}
-  - {fileID: 32900000, guid: 617c6a59c2ebca441ae3c817df231800, type: 3}
-  - {fileID: 32900000, guid: 1a2570cf4a7759447908eabc1e2e3bd7, type: 3}
-  - {fileID: 32900000, guid: 35528c87219b0c9468da0a9c58e37adb, type: 3}
-  - {fileID: 32900000, guid: 121525401a6f2624d90a452a0ed601ac, type: 3}
-  - {fileID: 32900000, guid: 1af39b8ed4e7efa4ca07c19e2b8b4547, type: 3}
-  - {fileID: 32900000, guid: 32eac507770d1674c9c9802e66dfd8aa, type: 3}
   videoPlayer: {fileID: 182885124}
+  subtitleText: {fileID: 1247037671}
+  videoURLs:
+  - 'Rotka.mp4 '
+  - Jump.mp4
+  - Kruszak.mp4
+  - Ladder.mp4
+  - Magma.mp4
+  - Slime.mp4
+  - Honey.mp4
+  - Icey.mp4
   subtitles:
   - Press SPACE to rotate
   - Hold SPACE to Jump
@@ -180,7 +181,6 @@ MonoBehaviour:
   - You can bounce on slime (and get 2nd jump)
   - You can stick to honey wall and jump again
   - Ice blocks make you slippery
-  subtitleText: {fileID: 1247037671}
   chosenMainIndex: 0
   chosenOptionIndex: 0
   _shortPressTime: 0.2
@@ -2885,7 +2885,7 @@ VideoPlayer:
   m_TargetMaterialProperty: <noninit>
   m_RenderMode: 2
   m_AspectRatio: 2
-  m_DataSource: 0
+  m_DataSource: 1
   m_TimeUpdateMode: 2
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 2
@@ -2893,14 +2893,14 @@ VideoPlayer:
   - {fileID: 0}
   m_DirectAudioVolumes:
   - 1
-  m_Url: 
+  m_Url: Assets/StreamingAssets/Rotka.mp4
   m_EnabledAudioTracks: 01
   m_DirectAudioMutes: 00
   m_ControlledAudioTrackCount: 1
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_SkipOnDrop: 1
-  m_Looping: 0
-  m_WaitForFirstFrame: 1
+  m_Looping: 1
+  m_WaitForFirstFrame: 0
   m_FrameReadyEventEnabled: 0
   m_VideoShaders: []
 --- !u!4 &182885125
@@ -19273,6 +19273,90 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1368290559
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1368290561}
+  - component: {fileID: 1368290560}
+  m_Layer: 0
+  m_Name: back_0
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!212 &1368290560
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1368290559}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: -4571828015118065507, guid: a788d0128e4733e49809a03750e721e9, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 20.48, y: 15.36}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!4 &1368290561
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1368290559}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.2287, y: 198.0923, z: 1.53}
+  m_LocalScale: {x: 1.0713284, y: 1.5594285, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1371336712
 GameObject:
   m_ObjectHideFlags: 0
@@ -21029,7 +21113,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1506645936
 RectTransform:
   m_ObjectHideFlags: 0
@@ -21109,7 +21193,7 @@ VideoPlayer:
   m_TargetMaterialProperty: <noninit>
   m_RenderMode: 2
   m_AspectRatio: 2
-  m_DataSource: 0
+  m_DataSource: 1
   m_TimeUpdateMode: 2
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 2
@@ -21117,7 +21201,7 @@ VideoPlayer:
   - {fileID: 0}
   m_DirectAudioVolumes:
   - 1
-  m_Url: 
+  m_Url: Rotka.mp4
   m_EnabledAudioTracks: 01
   m_DirectAudioMutes: 00
   m_ControlledAudioTrackCount: 1
@@ -28591,3 +28675,4 @@ SceneRoots:
   - {fileID: 45130652}
   - {fileID: 943952559}
   - {fileID: 1600163581865548696}
+  - {fileID: 1368290561}

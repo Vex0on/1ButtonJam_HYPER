@@ -1,10 +1,8 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine.Video;
 
 public class MainMenu : MonoBehaviour
@@ -16,10 +14,12 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private Toggle fullscreenToggle;
     [SerializeField] private TMP_Dropdown resolutionPicker;
     [SerializeField] private TMP_InputField playerNickname;
-    [SerializeField] private List<VideoClip> videoClips;
     [SerializeField] private VideoPlayer videoPlayer;
-    [SerializeField] private List<string> subtitles;
     [SerializeField] private TextMeshProUGUI subtitleText;
+
+    [SerializeField] private List<string> videoURLs;
+    [SerializeField] private List<string> subtitles;
+    private int currentVideoIndex = 0;
 
     [Header("Debug")]
     [SerializeField] private int chosenMainIndex;
@@ -111,15 +111,20 @@ public class MainMenu : MonoBehaviour
         buttonsPanel.SetActive(true);
         optionsPanel.SetActive(false);
     }
+
     public void PlayNextVideo()
     {
-        int nextIndex = (videoPlayer.clip != null) ? (videoClips.IndexOf(videoPlayer.clip) + 1) % videoClips.Count : 0;
-        videoPlayer.clip = videoClips[nextIndex];
+        currentVideoIndex = (currentVideoIndex + 1) % videoURLs.Count;
+        string videoPath = System.IO.Path.Combine(Application.streamingAssetsPath, videoURLs[currentVideoIndex]);
+        Debug.Log("Trying to play video: " + videoPath);
+
+        videoPlayer.url = videoPath;
         videoPlayer.Play();
 
-        if (nextIndex < subtitles.Count)
+
+        if (currentVideoIndex < subtitles.Count)
         {
-            subtitleText.text = subtitles[nextIndex];
+            subtitleText.text = subtitles[currentVideoIndex];
         }
     }
 }
